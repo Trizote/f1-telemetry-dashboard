@@ -3,45 +3,72 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>F1 Telemetry Dashboard</title>
     
-    <!-- DEFESA 1: CSP -->
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; connect-src https://api.jolpi.ca; style-src 'self' 'unsafe-inline';">
-    <!-- DEFESA 2: Anti-Rastreamento -->
-    <meta name="referrer" content="no-referrer">
-
-    <title>Pitwall F1 - Telemetry Dashboard</title>
+    <!-- SEGURANÇA CLIENT-SIDE -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; connect-src https://api.jolpi.ca; img-src 'self' https: data:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline';">
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <header class="navbar">
         <div class="logo">
-            <h1><span class="red-accent">|</span> Pitwall F1</h1>
+            <h1>🏎️ Pitwall <span class="red-accent">F1</span></h1>
         </div>
-        <div class="header-info">Live Telemetry</div>
+        <div class="header-info">Telemetry & Race Center 2026</div>
     </header>
 
     <main>
         <section class="hero">
-            <h2>Classificação Mundial de Pilotos</h2>
-            <p>Acompanhe a pontuação e o grid atualizado da temporada.</p>
+            <h2>Grid Atualizado</h2>
+            <p>Acompanhe a pontuação e o grid da temporada em tempo real.</p>
         </section>
 
         <section class="controls">
-            <button id="load-data-btn">Sincronizar Dados</button>
+            <button id="load-data-btn" class="btn-glow">Sincronizar Dados</button>
             <div class="search-box">
-                <input type="text" id="search-input" placeholder="Buscar piloto ou equipe..." disabled>
+                <input type="text" id="search-input" placeholder="Buscar piloto ou equipe (Ex: Verstappen, Ferrari)..." disabled autocomplete="off">
             </div>
         </section>
+        
+        <p id="status-message" class="status-message"></p>
 
-        <div id="status-message" class="status-message">Aguardando sincronização com a API...</div>
-
-        <!-- Container Seguro -->
+        <!-- Painel de Pilotos -->
         <div id="dashboard-grid" class="grid-container"></div>
+
+        <!-- Painel de Preferências -->
+        <section class="preferences-panel glass-panel">
+            <h2>As Minhas Preferências</h2>
+            <div class="selectors">
+                <div class="input-group">
+                    <label for="favorite-team">Equipa Favorita:</label>
+                    <select id="favorite-team">
+                        <option value="" disabled selected>Selecione uma equipa</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label for="favorite-driver">Piloto Favorito:</label>
+                    <select id="favorite-driver">
+                        <option value="" disabled selected>Selecione um piloto</option>
+                    </select>
+                </div>
+                <button id="save-preferences" class="btn-glow">Guardar Preferências</button>
+            </div>
+            <p id="security-msg" class="hidden-msg"></p>
+        </section>
+
+        <!-- Classificação de Construtores -->
+        <section class="standings-panel glass-panel">
+            <h2>Classificação de Construtores</h2>
+            <ul id="constructors-list" class="data-list"></ul>
+        </section>
     </main>
 
     <footer>
-        <p>Projeto acadêmico focado em Front-End e Segurança da Informação (InfoSec).</p>
-        <p class="api-credit">Dados fornecidos de forma assíncrona pela API pública.</p>
+        <p>Projeto de Telemetria F1. Desenvolvido com foco em InfoSec e UI/UX Moderno.</p>
+        <p class="api-credit">Dados fornecidos por Jolpi/Ergast API</p>
     </footer>
 
     <script src="script.js"></script>
