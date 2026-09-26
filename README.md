@@ -26,5 +26,5 @@ O foco principal deste repositório é demonstrar o domínio sobre o ecossistema
 
 ## 🔗 Links do Projeto
 
-- **Projeto no ar (Deploy):** [https://trizote.github.io/f1-telemetry-dashboard/]
--[Jolpi API (Ergast Mirror)](https://api.jolpi.ca)
+- 🏎️ **[Acessar o F1 Telemetry Dashboard ao Vivo](https://trizote.github.io/f1-telemetry-dashboard/)**
+- [Jolpi API (Ergast Mirror)](https://api.jolpi.ca)
