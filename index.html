@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- DEFESA 1: CSP -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; connect-src https://api.jolpi.ca; style-src 'self' 'unsafe-inline';">
+    <!-- DEFESA 2: Anti-Rastreamento -->
+    <meta name="referrer" content="no-referrer">
+
+    <title>Pitwall F1 - Telemetry Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header class="navbar">
+        <div class="logo">
+            <h1><span class="red-accent">|</span> Pitwall F1</h1>
+        </div>
+        <div class="header-info">Live Telemetry</div>
+    </header>
+
+    <main>
+        <section class="hero">
+            <h2>Classificação Mundial de Pilotos</h2>
+            <p>Acompanhe a pontuação e o grid atualizado da temporada.</p>
+        </section>
+
+        <section class="controls">
+            <button id="load-data-btn">Sincronizar Dados</button>
+            <div class="search-box">
+                <input type="text" id="search-input" placeholder="Buscar piloto ou equipe..." disabled>
+            </div>
+        </section>
+
+        <div id="status-message" class="status-message">Aguardando sincronização com a API...</div>
+
+        <!-- Container Seguro -->
+        <div id="dashboard-grid" class="grid-container"></div>
+    </main>
+
+    <footer>
+        <p>Projeto acadêmico focado em Front-End e Segurança da Informação (InfoSec).</p>
+        <p class="api-credit">Dados fornecidos de forma assíncrona pela API pública.</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

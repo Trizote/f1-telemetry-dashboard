@@ -1,0 +1,232 @@
+/* Variáveis de Cores Oficiais da F1 */
+:root {
+    --carbon-black: #15151e;
+    --carbon-card: #1f1f27;
+    --f1-red: #e10600;
+    --f1-red-hover: #b30500;
+    --off-white: #f3f3f3;
+    --text-muted: #8b8b99;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', system-ui, sans-serif;
+}
+
+body {
+    background-color: var(--carbon-black);
+    color: var(--off-white);
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* Navbar */
+.navbar {
+    background-color: var(--carbon-card);
+    padding: 1.2rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px solid var(--f1-red);
+}
+
+.logo h1 {
+    font-size: 1.5rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.red-accent {
+    color: var(--f1-red);
+    font-weight: bold;
+}
+
+.header-info {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+/* Layout Principal */
+main {
+    flex: 1;
+    padding: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+.hero {
+    margin-bottom: 2rem;
+}
+
+.hero h2 {
+    font-size: 2.2rem;
+    margin-bottom: 0.5rem;
+}
+
+.hero p {
+    color: var(--text-muted);
+}
+
+/* Controles e Pesquisa */
+.controls {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+}
+
+button {
+    background-color: var(--f1-red);
+    color: var(--off-white);
+    border: none;
+    padding: 0.8rem 1.5rem;
+    font-weight: bold;
+    font-size: 1rem;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.1s;
+}
+
+button:hover:not(:disabled) {
+    background-color: var(--f1-red-hover);
+}
+
+button:active:not(:disabled) {
+    transform: scale(0.98);
+}
+
+button:disabled {
+    background-color: #444;
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
+.search-box {
+    flex: 1;
+    min-width: 250px;
+}
+
+input[type="text"] {
+    width: 100%;
+    padding: 0.8rem 1rem;
+    background-color: var(--carbon-card);
+    border: 1px solid #333;
+    color: var(--off-white);
+    border-radius: 6px;
+    font-size: 1rem;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+input[type="text"]:focus {
+    border-color: var(--f1-red);
+}
+
+input[type="text"]:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.status-message {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    margin-bottom: 2rem;
+    font-style: italic;
+}
+
+/* Grid e Cards */
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+}
+
+.driver-card {
+    background: var(--carbon-card);
+    border-radius: 8px;
+    padding: 1.5rem;
+    position: relative;
+    overflow: hidden;
+    border-top: 3px solid #333;
+    transition: transform 0.3s ease, border-color 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+}
+
+.driver-card:hover {
+    transform: translateY(-5px);
+    border-top-color: var(--f1-red);
+}
+
+/* Número gigante no fundo do card */
+.driver-position {
+    position: absolute;
+    right: -10px;
+    top: -20px;
+    font-size: 6rem;
+    font-weight: 900;
+    color: rgba(255, 255, 255, 0.03);
+    z-index: 0;
+}
+
+.driver-card h2, .team-name, .points {
+    position: relative;
+    z-index: 1;
+}
+
+.driver-card h2 {
+    font-size: 1.4rem;
+    color: var(--off-white);
+}
+
+.team-name {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.points {
+    margin-top: 1rem;
+    font-weight: bold;
+    color: var(--f1-red);
+    font-size: 1.2rem;
+}
+
+/* Footer */
+footer {
+    background-color: var(--carbon-card);
+    text-align: center;
+    padding: 2rem;
+    margin-top: 2rem;
+    border-top: 1px solid #222;
+}
+
+footer p {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+}
+
+.api-credit {
+    margin-top: 0.5rem;
+    font-size: 0.8rem;
+    opacity: 0.6;
+}
+
+/* DEFESA 3: Acessibilidade visual */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation: none !important;
+        transition: none !important;
+    }
+    .driver-card:hover {
+        transform: none;
+    }
+}
