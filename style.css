@@ -321,3 +321,32 @@ footer p { color: var(--text-muted); font-size: 0.85rem; }
     border-radius: 6px;
     border-left: 3px solid #ff1801;
 }
+
+/* ==========================================
+   OTIMIZAÇÃO RESPONSIVA DE TABELAS (MOBILE)
+   ========================================== */
+@media screen and (max-width: 768px) {
+    .table-responsive {
+        width: 100%;
+        overflow-x: hidden; /* Remove o scroll lateral indesejado */
+    }
+
+    .data-table {
+        width: 100%;
+        font-size: 0.7rem; /* Reduz o tamanho da letra para caber no ecrã */
+        table-layout: fixed; /* Força as colunas a dividirem o espaço proporcionalmente */
+    }
+
+    .data-table th, 
+    .data-table td {
+        padding: 0.35rem 0.15rem; /* Compacta as margens internas das células */
+        word-wrap: break-word;   /* Permite que o texto se ajuste se necessário */
+        text-align: center;      /* Centraliza os dados para melhor leitura */
+    }
+    
+    /* Ajuste específico para alinhar o nome do piloto e equipa à esquerda se preferir */
+    .data-table th:nth-child(2),
+    .data-table td:nth-child(2) {
+        text-align: left;
+    }
+}
