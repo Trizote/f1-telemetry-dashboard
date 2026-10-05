@@ -27,7 +27,8 @@
     <!-- MENU DE NAVEGAÇÃO -->
     <nav class="tab-menu">
         <button class="tab-btn active" data-target="tab-grid">Grid</button>
-        <button class="tab-btn" data-target="tab-hall">Hall da Fama</button>
+        <button class="tab-btn" data-target="tab-hall-current">Hall Atual</button>
+        <button class="tab-btn" data-target="tab-hall-historic">Hall Histórico</button>
         <button class="tab-btn" data-target="tab-constructors">Construtores</button>
         <button class="tab-btn" data-target="tab-bosses">Chefes</button>
         <button class="tab-btn" data-target="tab-engineers">Engenheiros</button>
@@ -35,7 +36,7 @@
     </nav>
 
     <main>
-        <!-- ABA 1: GRID & PREFERÊNCIAS (LGPD COMPLIANT) -->
+        <!-- ABA 1: GRID & PREFERÊNCIAS COM MENU CUSTOMIZADO -->
         <section id="tab-grid" class="tab-content active">
             <div class="hero">
                 <h2>Grid Atualizado</h2>
@@ -44,16 +45,29 @@
             
             <div class="glass-panel prefs-panel">
                 <h3>⭐ As Minhas Preferências (Privacidade LGPD)</h3>
-                <p class="lgpd-notice">As suas preferências são guardadas de forma estritamente local no seu dispositivo para uso pessoal, sem partilha de dados sensíveis com terceiros.</p>
+                <p class="lgpd-notice">As suas preferências são guardadas de forma estritamente local no seu dispositivo para uso pessoal, sem partilha de dados com terceiros.</p>
                 <div class="prefs-grid" style="margin-top: 1rem;">
+                    
+                    <!-- Custom Dropdown: Equipa -->
                     <div class="input-group">
                         <label>Equipa Favorita:</label>
-                        <select id="fav-team-select"><option value="">Selecione</option></select>
+                        <div class="custom-select-wrapper" id="custom-team-dropdown">
+                            <div class="custom-select-trigger"><span>Selecione a Equipa</span></div>
+                            <div class="custom-options"></div>
+                        </div>
+                        <input type="hidden" id="fav-team-select" value="">
                     </div>
+
+                    <!-- Custom Dropdown: Piloto -->
                     <div class="input-group">
                         <label>Piloto Favorito:</label>
-                        <select id="fav-driver-select"><option value="">Selecione</option></select>
+                        <div class="custom-select-wrapper" id="custom-driver-dropdown">
+                            <div class="custom-select-trigger"><span>Selecione o Piloto</span></div>
+                            <div class="custom-options"></div>
+                        </div>
+                        <input type="hidden" id="fav-driver-select" value="">
                     </div>
+
                     <div style="display: flex; gap: 0.5rem; align-items: flex-end;">
                         <button id="save-prefs-btn" class="btn-glow">Guardar</button>
                         <button id="clear-prefs-btn" class="btn-glow" style="background: #222; border: 1px solid var(--glass-border);">Apagar Dados</button>
@@ -71,23 +85,55 @@
             <div id="dashboard-grid" class="grid-container"></div>
         </section>
 
-        <!-- ABA 2: HALL DA FAMA -->
-        <section id="tab-hall" class="tab-content">
+        <!-- ABA 2: HALL DA FAMA DO GRID ATUAL -->
+        <section id="tab-hall-current" class="tab-content">
             <div class="hero">
-                <h2>Hall da Fama</h2>
-                <p>Campeões mundiais no grid atual.</p>
+                <h2>Hall da Fama - Grid Atual</h2>
+                <p>Campeões mundiais presentes no grid da temporada atual.</p>
             </div>
             <div class="glass-panel">
                 <div class="table-responsive">
                     <table class="data-table">
-                        <thead><tr><th>Piloto</th><th>Títulos</th><th>Equipa</th></tr></thead>
-                        <tbody id="hall-tbody"></tbody>
+                        <thead>
+                            <tr>
+                                <th>Piloto</th>
+                                <th>Títulos</th>
+                                <th>Equipa</th>
+                            </tr>
+                        </thead>
+                        <tbody id="hall-current-tbody"></tbody>
                     </table>
                 </div>
             </div>
         </section>
 
-        <!-- ABA 3: CONSTRUTORES -->
+        <!-- ABA 3: HALL DA FAMA HISTÓRICO (1950 - 2025) -->
+        <section id="tab-hall-historic" class="tab-content">
+            <div class="hero">
+                <h2>Hall da Fama - Histórico Completo</h2>
+                <p>Todos os campeões mundiais da história da F1 (1950 a 2025) com estatísticas de poles, vitórias, pódios e construtores.</p>
+            </div>
+            <div class="glass-panel">
+                <div class="table-responsive">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Ano</th>
+                                <th>Piloto Campeão</th>
+                                <th>Equipa</th>
+                                <th>Poles</th>
+                                <th>Vitórias</th>
+                                <th>Pódios</th>
+                                <th>Construtor Vencedor</th>
+                            </tr>
+                        </thead>
+                        <tbody id="hall-historic-tbody"></tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- ABA 4: CONSTRUTORES -->
         <section id="tab-constructors" class="tab-content">
             <div class="hero">
                 <h2>Campeonato de Construtores</h2>
@@ -103,7 +149,7 @@
             </div>
         </section>
 
-        <!-- ABA 4: CHEFES -->
+        <!-- ABA 5: CHEFES -->
         <section id="tab-bosses" class="tab-content">
             <div class="hero">
                 <h2>Chefes de Equipe</h2>
@@ -119,7 +165,7 @@
             </div>
         </section>
 
-        <!-- ABA 5: ENGENHEIROS -->
+        <!-- ABA 6: ENGENHEIROS -->
         <section id="tab-engineers" class="tab-content">
             <div class="hero">
                 <h2>Engenheiros de Pilotos</h2>
@@ -135,7 +181,7 @@
             </div>
         </section>
 
-        <!-- ABA 6: QUALI & GPS -->
+        <!-- ABA 7: QUALI & GPS -->
         <section id="tab-quali" class="tab-content">
             <div class="hero">
                 <h2>Telemetria de Quali & Corridas</h2>

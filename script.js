@@ -1,21 +1,96 @@
 (function() {
     "use strict";
 
-    // 1. Blindagem Anti-Clickjacking e Isolamento de Contexto
     if (window.top !== window.self) {
         window.top.location = window.self.location;
     }
 
-    /* ==========================================
-       MODEL (Camada de Dados, Lógica e LGPD)
-       ========================================== */
     class F1Model {
         constructor() {
-            this._hallData = [
+            this._hallCurrentData = [
                 { nome: "Lewis Hamilton", titulos: 7, equipe: "Ferrari" },
                 { nome: "Max Verstappen", titulos: 4, equipe: "Red Bull Racing" },
                 { nome: "Fernando Alonso", titulos: 2, equipe: "Aston Martin" },
                 { nome: "Lando Norris", titulos: 1, equipe: "McLaren" }
+            ];
+
+            this._hallHistoricData = [
+                { ano: 2025, piloto: "Lando Norris", equipe: "McLaren", poles: 7, vitorias: 7, podios: 18, construtor: "McLaren" },
+                { ano: 2024, piloto: "Max Verstappen", equipe: "RBR", poles: 8, vitorias: 8, podios: 13, construtor: "McLaren" },
+                { ano: 2023, piloto: "Max Verstappen", equipe: "RBR", poles: 12, vitorias: 19, podios: 21, construtor: "RBR" },
+                { ano: 2022, piloto: "Max Verstappen", equipe: "RBR", poles: 7, vitorias: 15, podios: 17, construtor: "RBR" },
+                { ano: 2021, piloto: "Max Verstappen", equipe: "RBR", poles: 10, vitorias: 10, podios: 18, construtor: "Mercedes" },
+                { ano: 2020, piloto: "Lewis Hamilton", equipe: "Mercedes", poles: 10, vitorias: 11, podios: 14, construtor: "Mercedes" },
+                { ano: 2019, piloto: "Lewis Hamilton", equipe: "Mercedes", poles: 4, vitorias: 10, podios: 16, construtor: "Mercedes" },
+                { ano: 2018, piloto: "Lewis Hamilton", equipe: "Mercedes", poles: 9, vitorias: 9, podios: 15, construtor: "Mercedes" },
+                { ano: 2017, piloto: "Lewis Hamilton", equipe: "Mercedes", poles: 11, vitorias: 9, podios: 13, construtor: "Mercedes" },
+                { ano: 2016, piloto: "Nico Rosberg", equipe: "Mercedes", poles: 8, vitorias: 9, podios: 16, construtor: "Mercedes" },
+                { ano: 2015, piloto: "Lewis Hamilton", equipe: "Mercedes", poles: 11, vitorias: 10, podios: 17, construtor: "Mercedes" },
+                { ano: 2014, piloto: "Lewis Hamilton", equipe: "Mercedes", poles: 7, vitorias: 11, podios: 16, construtor: "Mercedes" },
+                { ano: 2013, piloto: "Sebastian Vettel", equipe: "RBR", poles: 9, vitorias: 13, podios: 16, construtor: "RBR" },
+                { ano: 2012, piloto: "Sebastian Vettel", equipe: "RBR", poles: 6, vitorias: 5, podios: 10, construtor: "RBR" },
+                { ano: 2011, piloto: "Sebastian Vettel", equipe: "RBR", poles: 15, vitorias: 11, podios: 17, construtor: "RBR" },
+                { ano: 2010, piloto: "Sebastian Vettel", equipe: "RBR", poles: 10, vitorias: 5, podios: 10, construtor: "RBR" },
+                { ano: 2009, piloto: "Jenson Button", equipe: "Brawn", poles: 4, vitorias: 6, podios: 8, construtor: "Brawn" },
+                { ano: 2008, piloto: "Lewis Hamilton", equipe: "McLaren", poles: 7, vitorias: 5, podios: 10, construtor: "Ferrari" },
+                { ano: 2007, piloto: "Kimi Räikkönen", equipe: "Ferrari", poles: 3, vitorias: 6, podios: 12, construtor: "Ferrari" },
+                { ano: 2006, piloto: "Fernando Alonso", equipe: "Renault", poles: 6, vitorias: 7, podios: 14, construtor: "Renault" },
+                { ano: 2005, piloto: "Fernando Alonso", equipe: "Renault", poles: 6, vitorias: 7, podios: 15, construtor: "Renault" },
+                { ano: 2004, piloto: "Michael Schumacher", equipe: "Ferrari", poles: 8, vitorias: 13, podios: 15, construtor: "Ferrari" },
+                { ano: 2003, piloto: "Michael Schumacher", equipe: "Ferrari", poles: 5, vitorias: 6, podios: 8, construtor: "Ferrari" },
+                { ano: 2002, piloto: "Michael Schumacher", equipe: "Ferrari", poles: 7, vitorias: 11, podios: 17, construtor: "Ferrari" },
+                { ano: 2001, piloto: "Michael Schumacher", equipe: "Ferrari", poles: 11, vitorias: 9, podios: 14, construtor: "Ferrari" },
+                { ano: 2000, piloto: "Michael Schumacher", equipe: "Ferrari", poles: 9, vitorias: 9, podios: 12, construtor: "Ferrari" },
+                { ano: 1999, piloto: "Mika Häkkinen", equipe: "McLaren", poles: 11, vitorias: 5, podios: 10, construtor: "Ferrari" },
+                { ano: 1998, piloto: "Mika Häkkinen", equipe: "McLaren", poles: 9, vitorias: 8, podios: 11, construtor: "Williams" },
+                { ano: 1997, piloto: "Jacques Villeneuve", equipe: "Williams", poles: 10, vitorias: 7, podios: 8, construtor: "Williams" },
+                { ano: 1996, piloto: "Damon Hill", equipe: "Williams", poles: 9, vitorias: 8, podios: 10, construtor: "Williams" },
+                { ano: 1995, piloto: "Michael Schumacher", equipe: "Benetton", poles: 4, vitorias: 9, podios: 11, construtor: "Benetton" },
+                { ano: 1994, piloto: "Michael Schumacher", equipe: "Benetton", poles: 6, vitorias: 8, podios: 10, construtor: "Williams" },
+                { ano: 1993, piloto: "Alain Prost", equipe: "Williams", poles: 13, vitorias: 7, podios: 12, construtor: "Williams" },
+                { ano: 1992, piloto: "Nigel Mansell", equipe: "Williams", poles: 14, vitorias: 9, podios: 12, construtor: "Williams" },
+                { ano: 1991, piloto: "Ayrton Senna", equipe: "McLaren", poles: 8, vitorias: 7, podios: 12, construtor: "McLaren" },
+                { ano: 1990, piloto: "Ayrton Senna", equipe: "McLaren", poles: 10, vitorias: 6, podios: 11, construtor: "McLaren" },
+                { ano: 1989, piloto: "Alain Prost", equipe: "McLaren", poles: 2, vitorias: 4, podios: 11, construtor: "McLaren" },
+                { ano: 1988, piloto: "Ayrton Senna", equipe: "McLaren", poles: 13, vitorias: 8, podios: 11, construtor: "McLaren" },
+                { ano: 1987, piloto: "Nelson Piquet", equipe: "Williams", poles: 4, vitorias: 3, podios: 11, construtor: "Williams" },
+                { ano: 1986, piloto: "Alain Prost", equipe: "McLaren", poles: 1, vitorias: 4, podios: 11, construtor: "Williams" },
+                { ano: 1985, piloto: "Alain Prost", equipe: "McLaren", poles: 2, vitorias: 5, podios: 11, construtor: "McLaren" },
+                { ano: 1984, piloto: "Niki Lauda", equipe: "McLaren", poles: 0, vitorias: 5, podios: 9, construtor: "McLaren" },
+                { ano: 1983, piloto: "Nelson Piquet", equipe: "Brabham", poles: 1, vitorias: 3, podios: 8, construtor: "Ferrari" },
+                { ano: 1982, piloto: "Keke Rosberg", equipe: "Williams", poles: 1, vitorias: 1, podios: 6, construtor: "Ferrari" },
+                { ano: 1981, piloto: "Nelson Piquet", equipe: "Brabham", poles: 4, vitorias: 3, podios: 7, construtor: "Williams" },
+                { ano: 1980, piloto: "Alan Jones", equipe: "Williams", poles: 3, vitorias: 5, podios: 10, construtor: "Williams" },
+                { ano: 1979, piloto: "Jody Scheckter", equipe: "Ferrari", poles: 1, vitorias: 3, podios: 6, construtor: "Ferrari" },
+                { ano: 1978, piloto: "Mario Andretti", equipe: "Lotus", poles: 8, vitorias: 6, podios: 7, construtor: "Lotus" },
+                { ano: 1977, piloto: "Niki Lauda", equipe: "Ferrari", poles: 2, vitorias: 3, podios: 10, construtor: "Ferrari" },
+                { ano: 1976, piloto: "James Hunt", equipe: "McLaren", poles: 8, vitorias: 6, podios: 8, construtor: "Ferrari" },
+                { ano: 1975, piloto: "Niki Lauda", equipe: "Ferrari", poles: 9, vitorias: 5, podios: 8, construtor: "Ferrari" },
+                { ano: 1974, piloto: "Emerson Fittipaldi", equipe: "McLaren", poles: 2, vitorias: 3, podios: 7, construtor: "McLaren" },
+                { ano: 1973, piloto: "Jackie Stewart", equipe: "Tyrrell", poles: 3, vitorias: 5, podios: 8, construtor: "Lotus" },
+                { ano: 1972, piloto: "Emerson Fittipaldi", equipe: "Lotus", poles: 3, vitorias: 5, podios: 8, construtor: "Lotus" },
+                { ano: 1971, piloto: "Jackie Stewart", equipe: "Tyrrell", poles: 6, vitorias: 6, podios: 7, construtor: "Tyrrell" },
+                { ano: 1970, piloto: "Jochen Rindt", equipe: "Lotus", poles: 3, vitorias: 5, podios: 5, construtor: "Lotus" },
+                { ano: 1969, piloto: "Jackie Stewart", equipe: "Matra", poles: 2, vitorias: 6, podios: 7, construtor: "Matra" },
+                { ano: 1968, piloto: "Graham Hill", equipe: "Lotus", poles: 2, vitorias: 3, podios: 6, construtor: "Lotus" },
+                { ano: 1967, piloto: "Denny Hulme", equipe: "Brabham", poles: 0, vitorias: 2, podios: 8, construtor: "Brabham-Repco" },
+                { ano: 1966, piloto: "Jack Brabham", equipe: "Brabham", poles: 3, vitorias: 4, podios: 5, construtor: "Brabham-Repco" },
+                { ano: 1965, piloto: "Jim Clark", equipe: "Lotus", poles: 6, vitorias: 6, podios: 6, construtor: "Lotus" },
+                { ano: 1964, piloto: "John Surtees", equipe: "Ferrari", poles: 2, vitorias: 2, podios: 6, construtor: "Ferrari" },
+                { ano: 1963, piloto: "Jim Clark", equipe: "Lotus", poles: 7, vitorias: 7, podios: 9, construtor: "Lotus" },
+                { ano: 1962, piloto: "Graham Hill", equipe: "BRM", poles: 1, vitorias: 4, podios: 6, construtor: "BRM" },
+                { ano: 1961, piloto: "Phil Hill", equipe: "Ferrari", poles: 5, vitorias: 2, podios: 6, construtor: "Ferrari" },
+                { ano: 1960, piloto: "Jack Brabham", equipe: "Cooper", poles: 3, vitorias: 5, podios: 5, construtor: "Cooper-Climax" },
+                { ano: 1959, piloto: "Jack Brabham", equipe: "Cooper", poles: 1, vitorias: 2, podios: 5, construtor: "Cooper-Climax" },
+                { ano: 1958, piloto: "Mike Hawthorn", equipe: "Ferrari", poles: 4, vitorias: 1, podios: 7, construtor: "Vanwall" },
+                { ano: 1957, piloto: "Juan Manuel Fangio", equipe: "Maserati", poles: 4, vitorias: 4, podios: 6, construtor: "-" },
+                { ano: 1956, piloto: "Juan Manuel Fangio", equipe: "Ferrari", poles: 6, vitorias: 3, podios: 5, construtor: "-" },
+                { ano: 1955, piloto: "Juan Manuel Fangio", equipe: "Mercedes", poles: 3, vitorias: 4, podios: 5, construtor: "-" },
+                { ano: 1954, piloto: "Juan Manuel Fangio", equipe: "Maserati/Mercedes", poles: 5, vitorias: 6, podios: 7, construtor: "-" },
+                { ano: 1953, piloto: "Alberto Ascari", equipe: "Ferrari", poles: 6, vitorias: 5, podios: 5, construtor: "-" },
+                { ano: 1952, piloto: "Alberto Ascari", equipe: "Ferrari", poles: 5, vitorias: 6, podios: 6, construtor: "-" },
+                { ano: 1951, piloto: "Juan Manuel Fangio", equipe: "Alfa Romeo", poles: 4, vitorias: 3, podios: 5, construtor: "-" },
+                { ano: 1950, piloto: "Nino Farina", equipe: "Alfa Romeo", poles: 2, vitorias: 3, podios: 3, construtor: "-" }
             ];
 
             this._bossesData = [
@@ -31,7 +106,7 @@
                 { equipe: "Racing Bulls (RB)", chefe: "Alan Permane" },
                 { equipe: "Cadillac", chefe: "Marcin Budkowski" }
             ];
-
+            
             this._engineersData = [
                 { equipe: "McLaren", engenheiro: "Will Joseph", piloto: "Lando Norris" },
                 { equipe: "McLaren", engenheiro: "Tom Stallard", piloto: "Oscar Piastri" },
@@ -59,7 +134,8 @@
             ];
         }
 
-        get hallData() { return this._hallData; }
+        get hallCurrentData() { return this._hallCurrentData; }
+        get hallHistoricData() { return this._hallHistoricData; }
         get bossesData() { return this._bossesData; }
         get engineersData() { return this._engineersData; }
 
@@ -107,22 +183,18 @@
         }
     }
 
-    /* ==========================================
-       VIEW (Camada de Apresentação e DOM)
-       ========================================== */
     class F1View {
         constructor() {
             this.tabButtons = document.querySelectorAll('.tab-btn');
             this.tabContents = document.querySelectorAll('.tab-content');
             this.grid = document.getElementById('dashboard-grid');
-            this.hallTbody = document.getElementById('hall-tbody');
+            this.hallCurrentTbody = document.getElementById('hall-current-tbody');
+            this.hallHistoricTbody = document.getElementById('hall-historic-tbody');
             this.constructorsTbody = document.getElementById('constructors-tbody');
             this.bossesTbody = document.getElementById('bosses-tbody');
             this.engineersTbody = document.getElementById('engineers-tbody');
             this.roundSelect = document.getElementById('round-select');
             this.roundContainer = document.getElementById('round-results-container');
-            this.favTeamSelect = document.getElementById('fav-team-select');
-            this.favDriverSelect = document.getElementById('fav-driver-select');
             this.statusMessage = document.getElementById('status-message');
             this.btnLoad = document.getElementById('load-data-btn');
             this.searchInput = document.getElementById('search-input');
@@ -165,12 +237,19 @@
             });
         }
 
-        renderStaticTables(hall, bosses, engineers) {
-            this.hallTbody.textContent = "";
-            hall.forEach(item => {
+        renderStaticTables(hallCurrent, hallHistoric, bosses, engineers) {
+            this.hallCurrentTbody.textContent = "";
+            hallCurrent.forEach(item => {
                 const tr = document.createElement('tr');
                 tr.innerHTML = `<td>${item.nome}</td><td>${item.titulos} Títulos</td><td>${item.equipe}</td>`;
-                this.hallTbody.appendChild(tr);
+                this.hallCurrentTbody.appendChild(tr);
+            });
+
+            this.hallHistoricTbody.textContent = "";
+            hallHistoric.forEach(item => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `<td><strong>${item.ano}</strong></td><td>${item.piloto}</td><td>${item.equipe}</td><td>${item.poles}</td><td>${item.vitorias}</td><td>${item.podios}</td><td>${item.construtor}</td>`;
+                this.hallHistoricTbody.appendChild(tr);
             });
 
             this.bossesTbody.textContent = "";
@@ -208,23 +287,68 @@
         }
 
         renderPreferencesOptions(pilotos) {
-            this.favDriverSelect.innerHTML = '<option value="">Selecione o Piloto</option>';
-            this.favTeamSelect.innerHTML = '<option value="">Selecione a Equipa</option>';
-            const equipesUnicas = [...new Set(pilotos.map(p => p.Constructors[0].name))];
+            const teamDropdown = document.getElementById('custom-team-dropdown');
+            const driverDropdown = document.getElementById('custom-driver-dropdown');
             
+            const teamOptionsContainer = teamDropdown.querySelector('.custom-options');
+            const driverOptionsContainer = driverDropdown.querySelector('.custom-options');
+            
+            teamOptionsContainer.innerHTML = '';
+            driverOptionsContainer.innerHTML = '';
+
+            const equipesUnicas = [...new Set(pilotos.map(p => p.Constructors[0].name))];
+
+            this._addCustomOption(teamDropdown, teamOptionsContainer, '', 'Selecione a Equipa');
             equipesUnicas.forEach(eq => {
-                const opt = document.createElement('option');
-                opt.value = eq;
-                opt.textContent = eq;
-                this.favTeamSelect.appendChild(opt);
+                this._addCustomOption(teamDropdown, teamOptionsContainer, eq, eq);
             });
 
+            this._addCustomOption(driverDropdown, driverOptionsContainer, '', 'Selecione o Piloto');
             pilotos.forEach(p => {
-                const opt = document.createElement('option');
-                opt.value = p.Driver.driverId;
-                opt.textContent = `${p.Driver.givenName} ${p.Driver.familyName}`;
-                this.favDriverSelect.appendChild(opt);
+                const nomePiloto = `${p.Driver.givenName} ${p.Driver.familyName}`;
+                this._addCustomOption(driverDropdown, driverOptionsContainer, p.Driver.driverId, nomePiloto);
             });
+
+            this._initCustomDropdowns();
+        }
+
+        _addCustomOption(dropdown, container, value, text) {
+            const opt = document.createElement('div');
+            opt.className = 'custom-option';
+            opt.setAttribute('data-value', value);
+            opt.textContent = text;
+            
+            opt.addEventListener('click', () => {
+                const triggerSpan = dropdown.querySelector('.custom-select-trigger span');
+                const hiddenInput = dropdown.parentElement.querySelector('input[type="hidden"]');
+                
+                triggerSpan.textContent = text;
+                hiddenInput.value = value;
+                
+                dropdown.querySelectorAll('.custom-option').forEach(o => o.classList.remove('selected'));
+                opt.classList.add('selected');
+                
+                dropdown.classList.remove('open');
+            });
+
+            container.appendChild(opt);
+        }
+
+        _initCustomDropdowns() {
+            document.querySelectorAll('.custom-select-wrapper').forEach(wrapper => {
+                const trigger = wrapper.querySelector('.custom-select-trigger');
+                trigger.onclick = (e) => {
+                    e.stopPropagation();
+                    document.querySelectorAll('.custom-select-wrapper').forEach(w => {
+                        if (w !== wrapper) w.classList.remove('open');
+                    });
+                    wrapper.classList.toggle('open');
+                };
+            });
+
+            window.onclick = () => {
+                document.querySelectorAll('.custom-select-wrapper').forEach(w => w.classList.remove('open'));
+            };
         }
 
         renderRoundDetails(qualiList, raceList) {
@@ -267,9 +391,6 @@
         }
     }
 
-    /* ==========================================
-       CONTROLLER (Camada de Controle e Eventos)
-       ========================================== */
     class F1Controller {
         constructor(model, view) {
             this.model = model;
@@ -280,7 +401,12 @@
 
         async init() {
             this.view.bindTabs();
-            this.view.renderStaticTables(this.model.hallData, this.model.bossesData, this.model.engineersData);
+            this.view.renderStaticTables(
+                this.model.hallCurrentData, 
+                this.model.hallHistoricData, 
+                this.model.bossesData, 
+                this.model.engineersData
+            );
             
             await this.loadDrivers();
             await this.loadConstructors();
@@ -357,8 +483,8 @@
 
         savePrefs() {
             const prefs = {
-                equipa: this.view.favTeamSelect.value,
-                piloto: this.view.favDriverSelect.value
+                equipa: document.getElementById('fav-team-select').value,
+                piloto: document.getElementById('fav-driver-select').value
             };
             this.model.savePreferences(prefs);
             alert("Preferências guardadas com consentimento local (LGPD).");
@@ -366,19 +492,33 @@
 
         clearPrefs() {
             this.model.clearPreferences();
-            this.view.favTeamSelect.value = "";
-            this.view.favDriverSelect.value = "";
+            document.getElementById('fav-team-select').value = "";
+            document.getElementById('fav-driver-select').value = "";
+            
+            document.querySelector('#custom-team-dropdown .custom-select-trigger span').textContent = "Selecione a Equipa";
+            document.querySelector('#custom-driver-dropdown .custom-select-trigger span').textContent = "Selecione o Piloto";
+            
             alert("Os seus dados guardados foram eliminados com sucesso do dispositivo.");
         }
 
         loadPrefs() {
             const prefs = this.model.getPreferences();
-            if (prefs.equipa) this.view.favTeamSelect.value = prefs.equipa;
-            if (prefs.piloto) this.view.favDriverSelect.value = prefs.piloto;
+            if (prefs.equipa) {
+                document.getElementById('fav-team-select').value = prefs.equipa;
+                const teamTrigger = document.querySelector('#custom-team-dropdown .custom-select-trigger span');
+                if (teamTrigger) teamTrigger.textContent = prefs.equipa;
+            }
+            if (prefs.piloto) {
+                document.getElementById('fav-driver-select').value = prefs.piloto;
+                const matchedDriver = this.driversCache.find(p => p.Driver.driverId === prefs.piloto);
+                if (matchedDriver) {
+                    const driverTrigger = document.querySelector('#custom-driver-dropdown .custom-select-trigger span');
+                    if (driverTrigger) driverTrigger.textContent = `${matchedDriver.Driver.givenName} ${matchedDriver.Driver.familyName}`;
+                }
+            }
         }
     }
 
-    // Inicialização protegida da aplicação ao carregar o DOM
     document.addEventListener('DOMContentLoaded', () => {
         new F1Controller(new F1Model(), new F1View());
     });
