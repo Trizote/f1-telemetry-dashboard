@@ -5,9 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pitwall F1 - Telemetry & Intelligence</title>
     
-    <!-- SEGURANÇA CLIENT-SIDE -->
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; connect-src https://api.jolpi.ca; img-src 'self' https: data:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline';">
+    <!-- SEGURANÇA MÁXIMA E BLINDAGEM CONTRA MALWARE / XSS -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; connect-src https://api.jolpi.ca; img-src 'self' https: data:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline'; object-src 'none'; base-uri 'self';">
     <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta http-equiv="X-Frame-Options" content="DENY">
     <meta name="referrer" content="strict-origin-when-cross-origin">
     
     <link rel="stylesheet" href="style.css">
@@ -20,43 +21,43 @@
             </svg>
             <h1>PITWALL <span class="red-accent">F1</span></h1>
         </div>
-        <div class="header-info">2026 EDITION</div>
+        <div class="header-info">SECURE MVC & LGPD</div>
     </header>
 
-    <!-- MENU DE NAVEGAÇÃO ADAPTATIVO -->
+    <!-- MENU DE NAVEGAÇÃO -->
     <nav class="tab-menu">
         <button class="tab-btn active" data-target="tab-grid">Grid</button>
         <button class="tab-btn" data-target="tab-hall">Hall da Fama</button>
         <button class="tab-btn" data-target="tab-constructors">Construtores</button>
-        <button class="tab-btn" data-target="tab-bosses">Chefes de Equipe</button>
+        <button class="tab-btn" data-target="tab-bosses">Chefes</button>
         <button class="tab-btn" data-target="tab-engineers">Engenheiros</button>
         <button class="tab-btn" data-target="tab-quali">Quali & GPs</button>
     </nav>
 
     <main>
-        <!-- ABA 1: GRID & PILOTOS -->
+        <!-- ABA 1: GRID & PREFERÊNCIAS (LGPD COMPLIANT) -->
         <section id="tab-grid" class="tab-content active">
             <div class="hero">
                 <h2>Grid Atualizado</h2>
-                <p>Acompanhe a pontuação oficial e o número dos carros em tempo real.</p>
+                <p>Acompanhe a pontuação e os números dos carros em tempo real.</p>
             </div>
             
             <div class="glass-panel prefs-panel">
-                <h3>⭐ As Minhas Preferências</h3>
-                <div class="prefs-grid">
+                <h3>⭐ As Minhas Preferências (Privacidade LGPD)</h3>
+                <p class="lgpd-notice">As suas preferências são guardadas de forma estritamente local no seu dispositivo para uso pessoal, sem partilha de dados sensíveis com terceiros.</p>
+                <div class="prefs-grid" style="margin-top: 1rem;">
                     <div class="input-group">
                         <label>Equipa Favorita:</label>
-                        <select id="fav-team-select">
-                            <option value="">Selecione a Equipa</option>
-                        </select>
+                        <select id="fav-team-select"><option value="">Selecione</option></select>
                     </div>
                     <div class="input-group">
                         <label>Piloto Favorito:</label>
-                        <select id="fav-driver-select">
-                            <option value="">Selecione o Piloto</option>
-                        </select>
+                        <select id="fav-driver-select"><option value="">Selecione</option></select>
                     </div>
-                    <button id="save-prefs-btn" class="btn-glow">Guardar</button>
+                    <div style="display: flex; gap: 0.5rem; align-items: flex-end;">
+                        <button id="save-prefs-btn" class="btn-glow">Guardar</button>
+                        <button id="clear-prefs-btn" class="btn-glow" style="background: #222; border: 1px solid var(--glass-border);">Apagar Dados</button>
+                    </div>
                 </div>
             </div>
 
@@ -74,18 +75,12 @@
         <section id="tab-hall" class="tab-content">
             <div class="hero">
                 <h2>Hall da Fama</h2>
-                <p>Campeões mundiais presentes no grid atual.</p>
+                <p>Campeões mundiais no grid atual.</p>
             </div>
             <div class="glass-panel">
                 <div class="table-responsive">
                     <table class="data-table">
-                        <thead>
-                            <tr>
-                                <th>Piloto</th>
-                                <th>Títulos</th>
-                                <th>Equipa</th>
-                            </tr>
-                        </thead>
+                        <thead><tr><th>Piloto</th><th>Títulos</th><th>Equipa</th></tr></thead>
                         <tbody id="hall-tbody"></tbody>
                     </table>
                 </div>
@@ -96,79 +91,58 @@
         <section id="tab-constructors" class="tab-content">
             <div class="hero">
                 <h2>Campeonato de Construtores</h2>
-                <p>Pontuação e classificação em tempo real da temporada.</p>
+                <p>Classificação oficial em tempo real.</p>
             </div>
             <div class="glass-panel">
                 <div class="table-responsive">
                     <table class="data-table">
-                        <thead>
-                            <tr>
-                                <th>Pos</th>
-                                <th>Equipa</th>
-                                <th>Pontos</th>
-                            </tr>
-                        </thead>
-                        <tbody id="constructors-tbody">
-                            <tr><td colspan="3" style="text-align: center;">A carregar dados da API...</td></tr>
-                        </tbody>
+                        <thead><tr><th>Pos</th><th>Equipa</th><th>Pontos</th></tr></thead>
+                        <tbody id="constructors-tbody"><tr><td colspan="3" style="text-align: center;">A carregar...</td></tr></tbody>
                     </table>
                 </div>
             </div>
         </section>
 
-        <!-- ABA 4: CHEFES DE EQUIPE (SEPARADO) -->
+        <!-- ABA 4: CHEFES -->
         <section id="tab-bosses" class="tab-content">
             <div class="hero">
                 <h2>Chefes de Equipe</h2>
-                <p>Liderança executiva e gerencial de cada construtora.</p>
+                <p>Liderança executiva das construtoras.</p>
             </div>
             <div class="glass-panel">
                 <div class="table-responsive">
                     <table class="data-table">
-                        <thead>
-                            <tr>
-                                <th>Equipa</th>
-                                <th>Chefe de Equipe</th>
-                            </tr>
-                        </thead>
+                        <thead><tr><th>Equipa</th><th>Chefe de Equipe</th></tr></thead>
                         <tbody id="bosses-tbody"></tbody>
                     </table>
                 </div>
             </div>
         </section>
 
-        <!-- ABA 5: ENGENHEIROS DE PILOTOS (SEPARADO) -->
+        <!-- ABA 5: ENGENHEIROS -->
         <section id="tab-engineers" class="tab-content">
             <div class="hero">
                 <h2>Engenheiros de Pilotos</h2>
-                <p>Engenheiros de pista responsáveis por cada piloto.</p>
+                <p>Engenheiros de pista responsáveis.</p>
             </div>
             <div class="glass-panel">
                 <div class="table-responsive">
                     <table class="data-table">
-                        <thead>
-                            <tr>
-                                <th>Equipa</th>
-                                <th>Piloto</th>
-                                <th>Engenheiro de Corrida</th>
-                            </tr>
-                        </thead>
+                        <thead><tr><th>Equipa</th><th>Piloto</th><th>Engenheiro</th></tr></thead>
                         <tbody id="engineers-tbody"></tbody>
                     </table>
                 </div>
             </div>
         </section>
 
-        <!-- ABA 6: QUALIFYING & GP -->
+        <!-- ABA 6: QUALI & GPS -->
         <section id="tab-quali" class="tab-content">
             <div class="hero">
                 <h2>Telemetria de Quali & Corridas</h2>
-                <p>Consulte os tempos de Q1, Q2, Q3 e os resultados das etapas.</p>
+                <p>Consulte os tempos e resultados das etapas.</p>
             </div>
             <div class="controls">
-                <select id="round-select">
-                    <option value="" disabled selected>Selecione a Etapa (GP)</option>
-                </select>
+                <select id="round-select"><option value="" disabled selected>Selecione a Etapa</option></select>
                 <button id="load-round-btn" class="btn-glow">Carregar Telemetria</button>
             </div>
             <div id="round-results-container" class="glass-panel" style="margin-top: 1.5rem;">
@@ -178,7 +152,7 @@
     </main>
 
     <footer>
-        <p>Pitwall F1 Intelligence. InfoSec & Front-End.</p>
+        <p>Pitwall F1 Intelligence. Secure Architecture & LGPD Compliant.</p>
         <p class="api-credit">Dados por Jolpi/Ergast API</p>
     </footer>
 

@@ -208,3 +208,13 @@ footer p { color: var(--text-muted); font-size: 0.85rem; }
     .prefs-grid { flex-direction: column; align-items: stretch; }
     .tab-menu { justify-content: flex-start; padding: 0.5rem; }
 }
+
+.lgpd-notice {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    line-height: 1.4;
+    background: rgba(255, 255, 255, 0.02);
+    padding: 0.6rem 0.8rem;
+    border-radius: 6px;
+    border-left: 3px solid var(--f1-red);
+}
