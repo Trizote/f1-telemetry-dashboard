@@ -110,7 +110,7 @@
                 { equipe: "Cadillac", chefe: "Marcin Budkowski" }
             ];
 
-this._engineersData = [
+            this._engineersData = [
                 { equipe: "McLaren", engenheiro: "Will Joseph", piloto: "Lando Norris" },
                 { equipe: "McLaren", engenheiro: "Tom Stallard", piloto: "Oscar Piastri" },
                 { equipe: "Mercedes", engenheiro: "Peter Bonnington", piloto: "Andrea Kimi Antonelli" },
@@ -145,7 +145,18 @@ this._engineersData = [
         async fetchDriverStandings() {
             const res = await fetch('https://api.jolpi.ca/ergast/f1/current/driverStandings.json');
             const data = await res.json();
-            return data.MRData.StandingsTable.StandingsLists[0].DriverStandings;
+            let standings = data.MRData.StandingsTable.StandingsLists[0].DriverStandings;
+
+            standings.forEach(p => {
+                const id = p.Driver.driverId;
+                if (id === "bortoleto" || id === "hulkenberg") {
+                    if (p.Constructors && p.Constructors[0]) p.Constructors[0].name = "Audi";
+                } else if (id === "bottas" || id === "perez" || id === "sergio_perez") {
+                    if (p.Constructors && p.Constructors[0]) p.Constructors[0].name = "Cadillac";
+                }
+            });
+
+            return standings;
         }
 
         async fetchConstructorStandings() {
@@ -194,11 +205,6 @@ this._engineersData = [
             this.tabButtons = document.querySelectorAll('.tab-btn');
             this.tabContents = document.querySelectorAll('.tab-content');
             this.grid = document.getElementById('dashboard-grid');
-            this.hallCurrentTbody = document.getElementById('hall-current-tbody');
-            this.hallHistoricTbody = document.getElementById('hall-historic-tbody');
-            this.constructorsTbody = document.getElementById('constructors-tbody');
-            this.bossesTbody = document.getElementById('bosses-tbody');
-            this.engineersTbody = document.getElementById('engineers-tbody');
             this.roundSelect = document.getElementById('round-select');
             this.roundContainer = document.getElementById('round-results-container');
             this.statusMessage = document.getElementById('status-message');
@@ -217,15 +223,81 @@ this._engineersData = [
             });
         }
 
-        renderGrid(pilotos) {
+  getAvatarMap() {
+            return {
+                "hamilton": "https://www.formula1.com/content/dam/fom-website/drivers/L/LEWHAM01_Lewis_Hamilton/lewham01.png.transform/2col/image.png",
+                "max_verstappen": "https://www.formula1.com/content/dam/fom-website/drivers/M/MAXVER01_Max_Verstappen/maxver01.png.transform/2col/image.png",
+                "alonso": "https://www.formula1.com/content/dam/fom-website/drivers/F/FERALO01_Fernando_Alonso/feralo01.png.transform/2col/image.png",
+                "norris": "https://www.formula1.com/content/dam/fom-website/drivers/L/LANNOR01_Lando_Norris/lannor01.png.transform/2col/image.png",
+                "leclerc": "https://www.formula1.com/content/dam/fom-website/drivers/C/CHALEC01_Charles_Leclerc/chalec01.png.transform/2col/image.png",
+                "russell": "https://www.formula1.com/content/dam/fom-website/drivers/G/GEORUS01_George_Russell/georus01.png.transform/2col/image.png",
+                "piastri": "https://www.formula1.com/content/dam/fom-website/drivers/O/OSCPIA01_Oscar_Piastri/oscpia01.png.transform/2col/image.png",
+                "antonelli": "https://img2.51gt3.com/rac/racer/202503/bcca7f61b6684e26bb28aedaf8d97c53.png",
+                "andrea_kimi_antonelli": "https://img2.51gt3.com/rac/racer/202503/bcca7f61b6684e26bb28aedaf8d97c53.png",
+                "tsunoda": "https://www.formula1.com/content/dam/fom-website/drivers/Y/YUKTSU01_Yuki_Tsunoda/yuktsu01.png.transform/2col/image.png",
+                "albon": "https://www.formula1.com/content/dam/fom-website/drivers/A/ALEALB01_Alexander_Albon/alealb01.png.transform/2col/image.png",
+                "sainz": "https://www.formula1.com/content/dam/fom-website/drivers/C/CARSAI01_Carlos_Sainz/carsai01.png.transform/2col/image.png",
+                "lawson": "https://www.formula1.com/content/dam/fom-website/drivers/L/LIALAW01_Liam_Lawson/lialaw01.png.transform/2col/image.png",
+                "stroll": "https://www.formula1.com/content/dam/fom-website/drivers/L/LANSTR01_Lance_Stroll/lanstr01.png.transform/2col/image.png",
+                "ocon": "https://www.formula1.com/content/dam/fom-website/drivers/E/ESTOCO01_Esteban_Ocon/estoco01.png.transform/2col/image.png",
+                "bearman": "https://www.formula1.com/content/dam/fom-website/drivers/O/OLIBEA01_Oliver_Bearman/olibea01.png.transform/2col/image.png",
+                "hulkenberg": "https://www.formula1.com/content/dam/fom-website/drivers/N/NICHUL01_Nico_Hulkenberg/nichul01.png.transform/2col/image.png",
+                "bortoleto": "https://www.formula1.com/content/dam/fom-website/drivers/G/GABBOR01_Gabriel_Bortoleto/gabbor01.png.transform/2col/image.png",
+                "gasly": "https://www.formula1.com/content/dam/fom-website/drivers/P/PIEGAS01_Pierre_Gasly/piegas01.png.transform/2col/image.png",
+                "colapinto": "https://www.formula1.com/content/dam/fom-website/drivers/F/FRACOL01_Franco_Colapinto/fracol01.png.transform/2col/image.png",
+                "bottas": "https://www.formula1.com/content/dam/fom-website/drivers/V/VALBOT01_Valtteri_Bottas/valbot01.png.transform/2col/image.png",
+                "perez": "https://www.formula1.com/content/dam/fom-website/drivers/S/SERPER01_Sergio_Perez/serper01.png.transform/2col/image.png",
+                "sergio_perez": "https://www.formula1.com/content/dam/fom-website/drivers/S/SERPER01_Sergio_Perez/serper01.png.transform/2col/image.png",
+                "hadjar": "https://www.formula1.com/content/dam/fom-website/drivers/I/ISAHAD01_Isack_Hadjar/isahad01.png.transform/2col/image.png",
+                "isack_hadjar": "https://www.formula1.com/content/dam/fom-website/drivers/I/ISAHAD01_Isack_Hadjar/isahad01.png.transform/2col/image.png",
+                "lindblad": "https://cdn-8.motorsport.com/images/mgl/YE9wONPY/s1200/arvid-lindblad-racing-bulls.webp",
+                "arvid_lindblad": "https://cdn-8.motorsport.com/images/mgl/YE9wONPY/s1200/arvid-lindblad-racing-bulls.webp"
+            };
+        }
+
+        
+                renderGrid(pilotos) {
             this.grid.textContent = '';
+            const driverAvatars = this.getAvatarMap();
+
             pilotos.forEach(piloto => {
                 const card = document.createElement('div');
                 card.className = 'driver-card';
 
-                const numberBox = document.createElement('div');
-                numberBox.className = 'driver-position';
-                numberBox.textContent = piloto.Driver.permanentNumber || piloto.position;
+                const driverId = piloto.Driver.driverId;
+                const initials = `${piloto.Driver.givenName[0]}${piloto.Driver.familyName[0]}`;
+                const photoUrl = driverAvatars[driverId];
+
+                const avatarBox = document.createElement('div');
+                avatarBox.className = 'driver-avatar-container';
+
+                if (photoUrl) {
+                    const img = document.createElement('img');
+                    img.src = photoUrl;
+                    img.alt = piloto.Driver.familyName;
+                    img.onerror = () => {
+                        avatarBox.textContent = initials;
+                        avatarBox.style.display = "flex";
+                        avatarBox.style.alignItems = "center";
+                        avatarBox.style.justifyContent = "center";
+                        avatarBox.style.color = "#ff1801";
+                        avatarBox.style.fontWeight = "bold";
+                        avatarBox.style.fontSize = "1.1rem";
+                        img.remove();
+                    };
+                    avatarBox.appendChild(img);
+                } else {
+                    avatarBox.textContent = initials;
+                    avatarBox.style.display = "flex";
+                    avatarBox.style.alignItems = "center";
+                    avatarBox.style.justifyContent = "center";
+                    avatarBox.style.color = "#ff1801";
+                    avatarBox.style.fontWeight = "bold";
+                    avatarBox.style.fontSize = "1.1rem";
+                }
+
+                const infoDiv = document.createElement('div');
+                infoDiv.className = 'driver-card-info';
 
                 const name = document.createElement('h2');
                 name.textContent = `${piloto.Driver.givenName} ${piloto.Driver.familyName}`;
@@ -238,51 +310,97 @@ this._engineersData = [
                 points.className = 'points';
                 points.textContent = `${piloto.points} pts`;
 
-                card.append(numberBox, name, team, points);
+                infoDiv.append(name, team, points);
+                card.append(avatarBox, infoDiv);
                 this.grid.appendChild(card);
             });
         }
 
-        renderStaticTables(hallCurrent, hallHistoric, bosses, engineers) {
-            this.hallCurrentTbody.textContent = "";
-            hallCurrent.forEach(item => {
-                const tr = document.createElement('tr');
-                tr.innerHTML = `<td>${item.nome}</td><td>${item.titulos} Títulos</td><td>${item.equipe}</td>`;
-                this.hallCurrentTbody.appendChild(tr);
-            });
+        renderDriversTable(pilotos) {
+            const tbody = document.getElementById('drivers-table-tbody');
+            if (!tbody) return;
+            tbody.textContent = '';
+            const driverAvatars = this.getAvatarMap();
 
-            this.hallHistoricTbody.textContent = "";
-            hallHistoric.forEach(item => {
+            pilotos.forEach((piloto, index) => {
                 const tr = document.createElement('tr');
-                tr.innerHTML = `<td><strong>${item.ano}</strong></td><td>${item.piloto}</td><td>${item.equipe}</td><td>${item.poles}</td><td>${item.vitorias}</td><td>${item.podios}</td><td>${item.construtor}</td>`;
-                this.hallHistoricTbody.appendChild(tr);
-            });
+                const driverId = piloto.Driver.driverId;
+                const photoUrl = driverAvatars[driverId] || "";
+                const initials = `${piloto.Driver.givenName[0]}${piloto.Driver.familyName[0]}`;
 
-            this.bossesTbody.textContent = "";
-            bosses.forEach(item => {
-                const tr = document.createElement('tr');
-                tr.innerHTML = `<td>${item.equipe}</td><td>${item.chefe}</td>`;
-                this.bossesTbody.appendChild(tr);
-            });
-
-            this.engineersTbody.textContent = "";
-            engineers.forEach(item => {
-                const tr = document.createElement('tr');
-                tr.innerHTML = `<td>${item.equipe}</td><td>${item.piloto}</td><td>${item.engenheiro}</td>`;
-                this.engineersTbody.appendChild(tr);
+                tr.innerHTML = `
+                    <td style="font-weight: bold; color: #fff;">${piloto.position || (index + 1)}</td>
+                    <td>
+                        <div class="driver-row-info">
+                            <div class="table-driver-avatar">
+                                ${photoUrl ? `<img src="${photoUrl}" alt="${piloto.Driver.familyName}">` : `<span style="display:flex;align-items:center;justify-content:center;height:100%;color:#ff1801;font-size:0.8rem;">${initials}</span>`}
+                            </div>
+                            <span class="driver-name-span">${piloto.Driver.givenName} ${piloto.Driver.familyName}</span>
+                        </div>
+                    </td>
+                    <td style="color: var(--text-muted); font-size: 0.85rem;">${piloto.Constructors[0].name}</td>
+                    <td style="text-align: right; font-weight: bold; color: var(--f1-red);">${piloto.points}</td>
+                `;
+                tbody.appendChild(tr);
             });
         }
 
+        renderStaticTables(hallCurrent, hallHistoric, bosses, engineers) {
+            const hallCurrentTbody = document.getElementById('hall-current-tbody');
+            const hallHistoricTbody = document.getElementById('hall-historic-tbody');
+            const bossesTbody = document.getElementById('bosses-tbody');
+            const engineersTbody = document.getElementById('engineers-tbody');
+
+            if (hallCurrentTbody) {
+                hallCurrentTbody.textContent = "";
+                hallCurrent.forEach(item => {
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `<td>${item.nome}</td><td>${item.titulos} Títulos</td><td>${item.equipe}</td>`;
+                    hallCurrentTbody.appendChild(tr);
+                });
+            }
+
+            if (hallHistoricTbody) {
+                hallHistoricTbody.textContent = "";
+                hallHistoric.forEach(item => {
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `<td><strong>${item.ano}</strong></td><td>${item.piloto}</td><td>${item.equipe}</td><td>${item.poles}</td><td>${item.vitorias}</td><td>${item.podios}</td><td>${item.construtor}</td>`;
+                    hallHistoricTbody.appendChild(tr);
+                });
+            }
+
+            if (bossesTbody) {
+                bossesTbody.textContent = "";
+                bosses.forEach(item => {
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `<td>${item.equipe}</td><td>${item.chefe}</td>`;
+                    bossesTbody.appendChild(tr);
+                });
+            }
+
+              if (engineersTbody) {
+                engineersTbody.textContent = "";
+                engineers.forEach(item => {
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `<td>${item.equipe}</td><td>${item.piloto}</td><td>${item.engenheiro}</td>`;
+                    engineersTbody.appendChild(tr);
+                });
+            }
+        }
+
         renderConstructors(standings) {
-            this.constructorsTbody.textContent = "";
+            const constructorsTbody = document.getElementById('constructors-tbody');
+            if (!constructorsTbody) return;
+            constructorsTbody.textContent = "";
             standings.forEach(c => {
                 const tr = document.createElement('tr');
                 tr.innerHTML = `<td>${c.position}°</td><td>${c.Constructor.name}</td><td>${c.points} pts</td>`;
-                this.constructorsTbody.appendChild(tr);
+                constructorsTbody.appendChild(tr);
             });
         }
 
         renderRacesSelect(races) {
+            if (!this.roundSelect) return;
             this.roundSelect.textContent = "";
             races.forEach(race => {
                 const opt = document.createElement('option');
@@ -295,6 +413,7 @@ this._engineersData = [
         renderPreferencesOptions(pilotos) {
             const teamDropdown = document.getElementById('custom-team-dropdown');
             const driverDropdown = document.getElementById('custom-driver-dropdown');
+            if (!teamDropdown || !driverDropdown) return;
             
             const teamOptionsContainer = teamDropdown.querySelector('.custom-options');
             const driverOptionsContainer = driverDropdown.querySelector('.custom-options');
@@ -302,7 +421,7 @@ this._engineersData = [
             teamOptionsContainer.innerHTML = '';
             driverOptionsContainer.innerHTML = '';
 
-const equipesUnicas = [...new Set(pilotos.map(p => p.Constructors[0].name))];
+            const equipesUnicas = [...new Set(pilotos.map(p => p.Constructors[0].name))];
 
             this._addCustomOption(teamDropdown, teamOptionsContainer, '', 'Selecione a Equipa');
             equipesUnicas.forEach(eq => {
@@ -437,6 +556,7 @@ const equipesUnicas = [...new Set(pilotos.map(p => p.Constructors[0].name))];
 
                 this.driversCache = await this.model.fetchDriverStandings();
                 this.view.renderGrid(this.driversCache);
+                this.view.renderDriversTable(this.driversCache);
                 this.view.renderPreferencesOptions(this.driversCache);
                 
                 this.view.statusMessage.textContent = `Atualizado às ${new Date().toLocaleTimeString('pt-BR')}.`;
@@ -454,7 +574,7 @@ const equipesUnicas = [...new Set(pilotos.map(p => p.Constructors[0].name))];
                 const standings = await this.model.fetchConstructorStandings();
                 this.view.renderConstructors(standings);
             } catch (e) {
-                this.view.constructorsTbody.innerHTML = `<tr><td colspan="3" style="text-align:center; color: var(--f1-red);">Erro ao carregar construtores.</td></tr>`;
+                // Silencioso
             }
         }
 
@@ -463,7 +583,7 @@ const equipesUnicas = [...new Set(pilotos.map(p => p.Constructors[0].name))];
                 const races = await this.model.fetchRaces();
                 this.view.renderRacesSelect(races);
             } catch (e) {
-                this.view.roundSelect.innerHTML = '<option disabled>Erro ao carregar GPs</option>';
+                // Silencioso
             }
         }
 
@@ -488,6 +608,7 @@ const equipesUnicas = [...new Set(pilotos.map(p => p.Constructors[0].name))];
                 return nome.includes(termo) || equipe.includes(termo);
             });
             this.view.renderGrid(filtrados);
+            this.view.renderDriversTable(filtrados);
         }
 
         savePrefs() {

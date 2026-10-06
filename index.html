@@ -36,7 +36,7 @@
     </nav>
 
     <main>
-        <!-- ABA 1: GRID & PREFERÊNCIAS COM MENU CUSTOMIZADO -->
+        <!-- ABA 1: GRID, PREFERÊNCIAS E TABELA DE CLASSIFICAÇÃO OFICIAL -->
         <section id="tab-grid" class="tab-content active">
             <div class="hero">
                 <h2>Grid Atualizado</h2>
@@ -82,7 +82,29 @@
                 </div>
             </div>
             <p id="status-message" class="status-message"></p>
+            
+            <!-- Cards Grid -->
             <div id="dashboard-grid" class="grid-container"></div>
+
+            <!-- Tabela de Classificação de Pilotos Estilo F1 Oficial -->
+            <div class="glass-panel" style="margin-top: 2.5rem;">
+                <h3 style="margin-bottom: 1rem; color: #fff;">Classificação de Pilotos</h3>
+                <div class="table-responsive">
+                    <table class="data-table f1-drivers-table">
+                        <thead>
+                            <tr>
+                                <th style="width: 10%;">POS.</th>
+                                <th style="width: 45%;">DRIVER</th>
+                                <th style="width: 25%;">TEAM</th>
+                                <th style="width: 20%; text-align: right;">PTS</th>
+                            </tr>
+                        </thead>
+                        <tbody id="drivers-table-tbody">
+                            <!-- Preenchido via JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </section>
 
         <!-- ABA 2: HALL DA FAMA DO GRID ATUAL -->
@@ -181,7 +203,7 @@
             </div>
         </section>
 
-        <!-- ABA 7: QUALI & GPS -->
+        <!-- ABA 7: QUALI & GPs -->
         <section id="tab-quali" class="tab-content">
             <div class="hero">
                 <h2>Telemetria de Quali & Corridas</h2>
