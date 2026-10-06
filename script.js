@@ -5,6 +5,9 @@
         window.top.location = window.self.location;
     }
 
+    /* ==========================================
+       MODEL (Camada de Dados, Lógica e LGPD)
+       ========================================== */
     class F1Model {
         constructor() {
             this._hallCurrentData = [
@@ -106,8 +109,8 @@
                 { equipe: "Racing Bulls (RB)", chefe: "Alan Permane" },
                 { equipe: "Cadillac", chefe: "Marcin Budkowski" }
             ];
-            
-            this._engineersData = [
+
+this._engineersData = [
                 { equipe: "McLaren", engenheiro: "Will Joseph", piloto: "Lando Norris" },
                 { equipe: "McLaren", engenheiro: "Tom Stallard", piloto: "Oscar Piastri" },
                 { equipe: "Mercedes", engenheiro: "Peter Bonnington", piloto: "Andrea Kimi Antonelli" },
@@ -183,6 +186,9 @@
         }
     }
 
+    /* ==========================================
+       VIEW (Camada de Apresentação e DOM)
+       ========================================== */
     class F1View {
         constructor() {
             this.tabButtons = document.querySelectorAll('.tab-btn');
@@ -296,7 +302,7 @@
             teamOptionsContainer.innerHTML = '';
             driverOptionsContainer.innerHTML = '';
 
-            const equipesUnicas = [...new Set(pilotos.map(p => p.Constructors[0].name))];
+const equipesUnicas = [...new Set(pilotos.map(p => p.Constructors[0].name))];
 
             this._addCustomOption(teamDropdown, teamOptionsContainer, '', 'Selecione a Equipa');
             equipesUnicas.forEach(eq => {
@@ -391,6 +397,9 @@
         }
     }
 
+    /* ==========================================
+       CONTROLLER (Camada de Controle e Eventos)
+       ========================================== */
     class F1Controller {
         constructor(model, view) {
             this.model = model;
