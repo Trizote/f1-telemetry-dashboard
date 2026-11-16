@@ -128,6 +128,8 @@
                 { equipe: "Aston Martin", engenheiro: "Gary Gannon", piloto: "Lance Stroll" },
                 { equipe: "Haas", engenheiro: "Laura Müller", piloto: "Esteban Ocon" },
                 { equipe: "Haas", engenheiro: "Ronan O'Hare", piloto: "Oliver Bearman" },
+                { equipe: "Haas", engenheiro:  "Laura Müller", piloto: "Ryō Hirakawa"},
+                { equipe: "Haas", engenheiro:   "Laura Müller", piloto: "Rafael Câmera"},
                 { equipe: "Audi", engenheiro: "José Manuel López", piloto: "Gabriel Bortoleto" },
                 { equipe: "Audi", engenheiro: "Steven Petrik", piloto: "Nico Hülkenberg" },
                 { equipe: "Alpine", engenheiro: "Stuart Barlow", piloto: "Franco Colapinto" },
@@ -223,17 +225,22 @@
             });
         }
 
-  getAvatarMap() {
+         getAvatarMap() {
             return {
                 "hamilton": "https://www.formula1.com/content/dam/fom-website/drivers/L/LEWHAM01_Lewis_Hamilton/lewham01.png.transform/2col/image.png",
                 "max_verstappen": "https://www.formula1.com/content/dam/fom-website/drivers/M/MAXVER01_Max_Verstappen/maxver01.png.transform/2col/image.png",
+                "verstappen": "https://www.formula1.com/content/dam/fom-website/drivers/M/MAXVER01_Max_Verstappen/maxver01.png.transform/2col/image.png",
                 "alonso": "https://www.formula1.com/content/dam/fom-website/drivers/F/FERALO01_Fernando_Alonso/feralo01.png.transform/2col/image.png",
                 "norris": "https://www.formula1.com/content/dam/fom-website/drivers/L/LANNOR01_Lando_Norris/lannor01.png.transform/2col/image.png",
                 "leclerc": "https://www.formula1.com/content/dam/fom-website/drivers/C/CHALEC01_Charles_Leclerc/chalec01.png.transform/2col/image.png",
                 "russell": "https://www.formula1.com/content/dam/fom-website/drivers/G/GEORUS01_George_Russell/georus01.png.transform/2col/image.png",
                 "piastri": "https://www.formula1.com/content/dam/fom-website/drivers/O/OSCPIA01_Oscar_Piastri/oscpia01.png.transform/2col/image.png",
+                
+                // Kimi Antonelli
                 "antonelli": "https://img2.51gt3.com/rac/racer/202503/bcca7f61b6684e26bb28aedaf8d97c53.png",
                 "andrea_kimi_antonelli": "https://img2.51gt3.com/rac/racer/202503/bcca7f61b6684e26bb28aedaf8d97c53.png",
+                "kimi_antonelli": "https://img2.51gt3.com/rac/racer/202503/bcca7f61b6684e26bb28aedaf8d97c53.png",
+
                 "tsunoda": "https://www.formula1.com/content/dam/fom-website/drivers/Y/YUKTSU01_Yuki_Tsunoda/yuktsu01.png.transform/2col/image.png",
                 "albon": "https://www.formula1.com/content/dam/fom-website/drivers/A/ALEALB01_Alexander_Albon/alealb01.png.transform/2col/image.png",
                 "sainz": "https://www.formula1.com/content/dam/fom-website/drivers/C/CARSAI01_Carlos_Sainz/carsai01.png.transform/2col/image.png",
@@ -250,12 +257,21 @@
                 "sergio_perez": "https://www.formula1.com/content/dam/fom-website/drivers/S/SERPER01_Sergio_Perez/serper01.png.transform/2col/image.png",
                 "hadjar": "https://www.formula1.com/content/dam/fom-website/drivers/I/ISAHAD01_Isack_Hadjar/isahad01.png.transform/2col/image.png",
                 "isack_hadjar": "https://www.formula1.com/content/dam/fom-website/drivers/I/ISAHAD01_Isack_Hadjar/isahad01.png.transform/2col/image.png",
+                
+                // Arvid Lindblad
                 "lindblad": "https://cdn-8.motorsport.com/images/mgl/YE9wONPY/s1200/arvid-lindblad-racing-bulls.webp",
-                "arvid_lindblad": "https://cdn-8.motorsport.com/images/mgl/YE9wONPY/s1200/arvid-lindblad-racing-bulls.webp"
+                "arvid_lindblad": "https://cdn-8.motorsport.com/images/mgl/YE9wONPY/s1200/arvid-lindblad-racing-bulls.webp",
+                
+                // Ryo Hirakawa (com a imagem correta fornecida)
+                "hirakawa": "https://cdn.haasf1team.com/s3fs-public/styles/landscape_desktop_1x/public/2026-02/sg2_1196_copy_mifoleoh_20260218110232.jpg?VersionId=kc87DSxlij0brv9.RGkl7YOjDlyDejCs",
+                "ryo_hirakawa": "https://cdn.haasf1team.com/s3fs-public/styles/landscape_desktop_1x/public/2026-02/sg2_1196_copy_mifoleoh_20260218110232.jpg?VersionId=kc87DSxlij0brv9.RGkl7YOjDlyDejCs",
+                
+                // Rafael Câmara (com a imagem correta fornecida)
+                "camara": "https://video.formula1.com/assets/studio-templates/5b2df890-c209-73a5-7ece-3a24b8229b83/8541fa62-d7ab-477a-b0e8-e114a8c76eb8/f01a65ed-713b-16c0-bc08-3a24b84620a0/thumbnail_small.jpeg",
+                "rafael_camara": "https://video.formula1.com/assets/studio-templates/5b2df890-c209-73a5-7ece-3a24b8229b83/8541fa62-d7ab-477a-b0e8-e114a8c76eb8/f01a65ed-713b-16c0-bc08-3a24b84620a0/thumbnail_small.jpeg"
             };
         }
 
-        
                 renderGrid(pilotos) {
             this.grid.textContent = '';
             const driverAvatars = this.getAvatarMap();
